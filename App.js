@@ -1,8 +1,26 @@
-import { useState } from "react";
-import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Alert, Button, StatusBar, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import * as Location from "expo-location";
 
 export default function App() {
+  const [minhaLocalizacao, setMinhaLocalizacao] = useState(null);
+
+  useEffect(() => {
+    async function obterLocalizacao(){
+      const {status} = await Location.requestForegroundPermissionsAsync();
+      if(status !== "granted"){
+        Alert.alert("Ops!", "Você não autorizou o uso de geolocalização");
+        return;
+      }
+
+      let localizacaoAtual = await Location.getCurrentPositionAsync({});
+      setMinhaLocalizacao(localizacaoAtual);
+    }
+
+    obterLocalizacao();
+  }, [])
+
   const [localizacao, setLocalizacao] = useState({
     latitude: -33.867886,
     longitude: -63.987,
@@ -42,8 +60,11 @@ export default function App() {
     <>
       <StatusBar />
       <View style={estilos.container}>
+        <View style={estilos.viewBotao}>
+          <Button title="Onde Estou?" onPress={marcarLocal} />
+        </View>
+        <View style={estilos.viewMapa}>
         <MapView
-          onPress={marcarLocal}
           style={estilos.mapa}
           initialRegion={regiaoInicialMapa}
           mapType="standard"
@@ -51,6 +72,7 @@ export default function App() {
         >
           <Marker coordinate={localizacao}></Marker>
         </MapView>
+        </View>
       </View>
     </>
   );
