@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 export default function App() {
+  const [localizacao, setLocalizacao] = useState({
+    latitude: -33.867886,
+    longitude: -63.987,
+    latitudeDelta: 10,
+    longitudeDelta: 10,
+  });
+
   const regiaoInicialMapa = {
     // São Paulo
     latitude: -23.533773,
@@ -18,13 +26,6 @@ export default function App() {
     longitudeDelta: 0.4,
   };
 
-  /* Coordenadas para o Marker que será aplicado ao MapView */
-  const localização = {
-    latitude: -33.867886,
-    longitude: -63.987,
-    latitudeDelta: 10,
-    longitudeDelta: 10,
-  };
   return (
     <>
       <StatusBar />
@@ -32,15 +33,10 @@ export default function App() {
         <MapView
           style={estilos.mapa}
           initialRegion={regiaoInicialMapa}
-          mapType="hybrid"
+          mapType="standard"
           userInterfaceStyle="dark" // somente IOS
-        // maxZoomLevel={15}
-        // minZoomLevel={5}
         >
-          <Marker coordinate={localizacao}>
-            {/* Ícone personalizado */}
-            <Image source={require("./assets/ghost.png")} />
-          </Marker>
+          <Marker coordinate={localizacao}></Marker>
         </MapView>
       </View>
     </>
