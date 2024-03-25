@@ -52,13 +52,14 @@ export default function App() {
     longitudeDelta: 40,
   };
 
-  const marcarLocal = (event) => {
+  const marcarLocal = () => {
     setLocalizacao({
-      ...localizacao, // usado para pegar/manter os deltas
 
       // Obtendo novos valores a partir do evento de pressionar
-      latitude: event.nativeEvent.coordinate.latitude,
-      longitude: event.nativeEvent.coordinate.longitude,
+      latitude: minhaLocalizacao.coords.latitude,
+      longitude: minhaLocalizacao.coords.longitude,
+      longitudeDelta: 0.02,
+      latitudeDelta: 0.01,
     });
   };
 
@@ -73,7 +74,7 @@ export default function App() {
           <MapView
             mapType="standard"
             style={estilos.mapa}
-            initialRegion={regiaoInicialMapa}
+            region={localizacao ?? regiaoInicialMapa}
           >
             {localizacao && <Marker coordinate={localizacao} />}
           </MapView>
