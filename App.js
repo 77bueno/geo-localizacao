@@ -26,11 +26,24 @@ export default function App() {
     longitudeDelta: 0.4,
   };
 
+  const marcarLocal = (event) => {
+    console.log(event.nativeEvent);
+
+    setLocalizacao({
+       ...localizacao, // usado para pegar/manter os deltas
+
+       /* Obtendo novos valores a partir do evento de pressionar */
+      latitude: event.nativeEvent.cordinate.latitude,
+      longitude:  event.nativeEvent.coordinate.longitude,
+    });
+  }
+
   return (
     <>
       <StatusBar />
       <View style={estilos.container}>
         <MapView
+          onPress={marcarLocal}
           style={estilos.mapa}
           initialRegion={regiaoInicialMapa}
           mapType="standard"
