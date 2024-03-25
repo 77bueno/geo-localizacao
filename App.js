@@ -39,25 +39,15 @@ export default function App() {
 
   console.log(minhaLocalizacao);
 
-  const [localizacao, setLocalizacao] = useState({
-    latitude: -33.867886,
-    longitude: -63.987,
-    latitudeDelta: 10,
-    longitudeDelta: 10,
-  });
+  /* Este state tem a finalidade de determinar
+  a posição/localização no MapView junto com o Marker.
+  Inicialmente é nulo pois o usuário ainda não acionou o botão da sua localização. */
+  const [localizacao, setLocalizacao] = useState(null);
 
   /* Coordenadas para o MapView */
   const regiaoInicialMapa = {
-    /* // Brasil
-    latitude: -10,
-    longitude: -55, */
-    // São Paulo
     latitude: -23.533773,
     longitude: -46.65529,
-
-    /* Definição do zoom do mapa.
-    Quanto menor, mais próximo o mapa fica.
-    Quanto maior, mais longe o mapa fica */
     latitudeDelta: 40,
     longitudeDelta: 40,
   };
@@ -85,7 +75,7 @@ export default function App() {
             style={estilos.mapa}
             initialRegion={regiaoInicialMapa}
           >
-            <Marker coordinate={localizacao} />
+            {localizacao && <Marker coordinate={localizacao} />}
           </MapView>
         </View>
       </View>
